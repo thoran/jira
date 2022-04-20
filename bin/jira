@@ -1,44 +1,31 @@
 #!/usr/bin/env ruby
 # jira
 
-# 20211112
-# 0.0.0
+# 20220420
+# 0.1.0
 
-require 'git.rb'
+require 'Git/Branch'
 
-def config
-  eval(File.read(File.expand_path('~/.config/jira.rb')))
-end
-
-def subcommand
+def sub_domain
   ARGV[0]
 end
 
-def argument
-  ARGV[1]
+def current_branch_name
+  Git::Branch.current.name
 end
 
-def ticket_url(argument = nil)
-  if argument
-    issue_id = argument
-  else
-    issue_id = Git::Branch.current.name.match(/^(\D+-\d+)+.*$/)[1]
+def jira_issue_id
+  if md = current_branch_name.match(/^(.+-\d+)_/)
+    md[1]
   end
-  "https://#{SUBDOMAIN}.atlassian.net/browse/#{issue_id}"
 end
 
-def open(argument)
-  system("open #{ticket_url(argument)}")
+def jira_url
+  "https://#{sub_domain}.atlassian.net/browse/#{jira_issue_id}"
 end
 
 def main
-  config
-  case subcommand
-  when 'open'
-    open(argument)
-  else
-    open(argument)
-  end
+  open(jira_url)
 end
 
 main
