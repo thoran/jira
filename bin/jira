@@ -1,13 +1,24 @@
 #!/usr/bin/env ruby
 # jira
 
-# 20220420
-# 0.1.0
+# 20220608
+# 0.2.0
 
+# Changes since 0.1:
+# 1. /sub_domain/subdomain/
+# 2. + config() (Reintroduced and altered from 0.0.0.)
+# 3. ~ subdomain(): + use of config().
+
+gem 'git.rb'
 require 'Git/Branch'
 
-def sub_domain
-  ARGV[0]
+def config
+  eval(File.read(File.expand_path('~/.config/jira.rb')))
+  {subdomain: SUBDOMAIN}
+end
+
+def subdomain
+  config[:subdomain] || ARGV[0]
 end
 
 def current_branch_name
@@ -21,11 +32,11 @@ def jira_issue_id
 end
 
 def jira_url
-  "https://#{sub_domain}.atlassian.net/browse/#{jira_issue_id}"
+  "https://#{subdomain}.atlassian.net/browse/#{jira_issue_id}"
 end
 
 def main
-  open(jira_url)
+  system("open #{jira_url}")
 end
 
 main
