@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+# jira
+
+# 20211112
+# 0.0.0
+
+require 'git.rb'
+
+def config
+  eval(File.read(File.expand_path('~/.config/jira.rb')))
+end
+
+def subcommand
+  ARGV[0]
+end
+
+def argument
+  ARGV[1]
+end
+
+def ticket_url(argument = nil)
+  if argument
+    issue_id = argument
+  else
+    issue_id = Git::Branch.current.name.match(/^(\D+-\d+)+.*$/)[1]
+  end
+  "https://#{SUBDOMAIN}.atlassian.net/browse/#{issue_id}"
+end
+
+def open(argument)
+  system("open #{ticket_url(argument)}")
+end
+
+def main
+  config
+  case subcommand
+  when 'open'
+    open(argument)
+  else
+    open(argument)
+  end
+end
+
+main
