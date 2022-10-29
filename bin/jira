@@ -1,15 +1,11 @@
 #!/usr/bin/env ruby
 # jira
 
-# 20221024
-# 0.2.1
+# 20221029
+# 0.3.0
 
-# Changes since 0.1:
-# 1. /sub_domain/subdomain/
-# 2. + config() (Reintroduced and altered from 0.0.0.)
-# 3. ~ subdomain(): + use of config().
-# 0/1
-# 4. ~ jira_issue_id(): Account for when the next character after the issue id is either an underscore or a hyphen.
+# Changes since 0.2:
+# 1. Allow for specifying a Jira issue id other than one specified in a branch name rather than specifying the subdomain as an argument.
 
 gem 'git.rb'
 require 'Git/Branch'
@@ -20,17 +16,25 @@ def config
 end
 
 def subdomain
-  config[:subdomain] || ARGV[0]
+  config[:subdomain]
+end
+
+def supplied_jira_issue_id
+  ARGV[0]
 end
 
 def current_branch_name
   Git::Branch.current.name
 end
 
-def jira_issue_id
+def branch_name_jira_issue_id
   if md = current_branch_name.match(/^(.+-\d+)[-_]/)
     md[1]
   end
+end
+
+def jira_issue_id
+  supplied_jira_issue_id || branch_name_jira_issue_id
 end
 
 def jira_url
