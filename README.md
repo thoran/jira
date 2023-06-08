@@ -13,10 +13,14 @@ $ brew install jira
 
 ## Setup
 
-Ensure that the Atlassian subdomain for your project is configured in ~/.config/jira.rb like so:
+Ensure that the Atlassian subdomain for your project, the preferred application, and profile to be used is configured in ~/.config/jira.rb like so:
 
 ```ruby
-SUBDOMAIN = 'subdomain'
+{
+  subdomain: 'subdomain',
+  application: 'Google Chrome', # The default is the system setting, so this is optional.
+  profile: 'Profile 1' # The default is 'Default', so this is optional.
+}
 ```
 
 ## Usage
