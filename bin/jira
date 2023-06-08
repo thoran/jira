@@ -1,22 +1,35 @@
 #!/usr/bin/env ruby
 # jira
 
-# 20221029
-# 0.3.0
+# 20230608
+# 0.4.0
 
-# Changes since 0.2:
-# 1. Allow for specifying a Jira issue id other than one specified in a branch name rather than specifying the subdomain as an argument.
+# Changes since 0.3:
+# -/0 (Allow selection of browser application and profile.)
+# 1. ~ config(): Use a hash literal for config.
+# 2. ~ main(): Use additional configs.
+
+# Note:
+# 1. If an application switch is not specified then the system setting will be the default.
+# 2. If a profile-directory switch is not specified then the Default profile will be the default.
 
 gem 'git.rb'
 require 'Git/Branch'
 
 def config
-  eval(File.read(File.expand_path('~/.config/jira.rb')))
-  {subdomain: SUBDOMAIN}
+  @config ||= eval(File.read(File.expand_path('~/.config/jira.rb')))
 end
 
 def subdomain
   config[:subdomain]
+end
+
+def application
+  config[:application]
+end
+
+def profile
+  config[:profile]
 end
 
 def supplied_jira_issue_id
@@ -41,8 +54,18 @@ def jira_url
   "https://#{subdomain}.atlassian.net/browse/#{jira_issue_id}"
 end
 
+def command_string
+  if application && profile
+    "open -n -a '#{application}' --args --profile-directory='#{profile}' #{jira_url}"
+  elsif application
+    "open -a '#{application}' #{jira_url}"
+  else
+    "open #{jira_url}"
+  end
+end
+
 def main
-  system("open #{jira_url}")
+  system(command_string)
 end
 
 main
