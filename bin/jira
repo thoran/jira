@@ -2,14 +2,7 @@
 # jira
 
 # 20260807
-# 0.4.1
-
-# Changes since 0.3:
-# -/0 (Allow selection of browser application and profile.)
-# 1. ~ config(): Use a hash literal for config.
-# 2. ~ main(): Use additional configs.
-# 0/1: Make the script executable.
-# 3. ~ bin/jira: mode 100644 --> 100755. A script carrying a shebang and not the bit to go with it cannot be run from a clone at all. Homebrew's bin.install had been setting the bit on the way past, so nothing showed until the formula moved to libexec.install, which keeps whatever mode the repository has.
+# 0.5.0
 
 # Note:
 # 1. If an application switch is not specified then the system setting will be the default.
