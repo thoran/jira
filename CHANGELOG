@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 20260816
+
+0.5.1: Populate the .gitignore, which had been committed empty.
+
+1. ~ .gitignore: 47 lines, covering gem builds, bundler, RDoc and YARD output, .DS_Store, editor files, the Ruby version managers, test artefacts and .claude. The file existed and was empty, which git-boot creates it as and nothing had since filled in.
+
+
 ## 20260807
 
 0.5.0: Add a CHANGELOG in the form changelogger writes, and retire the Changes section from the script header.

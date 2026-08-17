@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # jira
 
-# 20260807
-# 0.5.0
+# 20260816
+# 0.5.1
 
 # Note:
 # 1. If an application switch is not specified then the system setting will be the default.
